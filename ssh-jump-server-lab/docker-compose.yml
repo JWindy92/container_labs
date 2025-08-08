@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  ssh-ca:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: ssh-ca
+    environment:
+      - USER_NAME=caadmin
+      - PASSWORD_ACCESS=true
+      - USER_PASSWORD=password
+    volumes:
+      - ./ssh-ca:/config
+    ports:
+      - "2223:2222"  # different port from target
+    restart: unless-stopped
+
+  ssh-target:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: ssh-target
+    environment:
+      - USER_NAME=jumper
+      - PASSWORD_ACCESS=true
+      - USER_PASSWORD=password
+    volumes:
+      - ./ssh-target:/config
+      - ./trusted-ca:/trusted_ca:ro
+    ports:
+      - "2222:2222"
+    restart: unless-stopped
+
+volumes:
+  trusted-ca:

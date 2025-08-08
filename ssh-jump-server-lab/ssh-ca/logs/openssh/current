@@ -1,0 +1,9 @@
+2025-08-07 17:55:51.900660854  Server listening on 0.0.0.0 port 2222.
+2025-08-07 17:55:51.900712957  Server listening on :: port 2222.
+2025-08-07 17:55:51.903911021  Connection to localhost (::1) 2222 port [tcp/*] succeeded!
+2025-08-07 17:55:51.916026142  Connection closed by ::1 port 40404
+2025-08-07 18:00:56.758964906  Accepted password for caadmin from 172.21.0.1 port 44556 ssh2
+2025-08-07 18:00:56.782662509  Attempt to write login records by non-root user (aborting)
+2025-08-07 18:02:27.242295150  Attempt to write login records by non-root user (aborting)
+2025-08-07 18:02:27.242540266  Received disconnect from 172.21.0.1 port 44556:11: disconnected by user
+2025-08-07 18:02:27.242748079  Disconnected from user caadmin 172.21.0.1 port 44556

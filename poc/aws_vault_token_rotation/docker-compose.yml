@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  vault:
+    depends_on:
+      - localstack
+    image: hashicorp/vault:1.15
+    container_name: vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      VAULT_ADDR: http://0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+    command: server -dev -dev-root-token-id=root
+    volumes:
+      - vault-data:/vault/file
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"  # Main edge port
+      # - "127.0.0.1:4510-4559:4510-4559"
+    environment:
+      - SERVICES=secretsmanager,lambda,iam,logs,sts
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - ENFORCE_IAM=1
+    volumes:
+      - "./localstack:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+volumes:
+  vault-data:

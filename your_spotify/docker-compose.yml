@@ -1,0 +1,52 @@
+services:
+  server:
+    image: yooooomi/your_spotify_server
+    restart: always
+    ports:
+      - "8080:8080"
+    # networks:                # <-- Add this
+    #   - spotify_net
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    environment:
+      # API_ENDPOINT: https://0d5119e965ec.ngrok-free.app/api # <---- This sets the redirect_uri in the reqeust url
+      # CLIENT_ENDPOINT: https://0d5119e965ec.ngrok-free.app
+      API_ENDPOINT: ${PUBLIC_URL}/api # <---- This sets the redirect_uri in the reqeust url
+      CLIENT_ENDPOINT: ${PUBLIC_URL}
+      SPOTIFY_PUBLIC: 525570b545c94b0f9173226823297728
+      SPOTIFY_SECRET: 18d1800a4f7e4b9bb7e6a95b33ad8879
+      CORS: http://localhost:80,https://localhost:443,https://localhost
+  mongo:
+    container_name: mongo
+    image: mongo:6
+    volumes:
+      - ./your_spotify_db:/data/db
+  web:
+    image: yooooomi/your_spotify_client
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      # API_ENDPOINT: https://0d5119e965ec.ngrok-free.app/api
+      API_ENDPOINT: ${PUBLIC_URL}/api
+    # networks:
+    #   - spotify_net
+
+  proxy:
+    image: nginx:1.19.10-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8081:8081"
+    volumes:
+      - ./proxy/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./proxy/certs:/etc/nginx/certs
+    # networks:
+    #   - spotify_net
+
+networks:
+  spotify_net:
+    driver: bridge
+

@@ -1,0 +1,22 @@
+2025-08-07 16:50:57.220576398  Server listening on 0.0.0.0 port 2222.
+2025-08-07 16:50:57.220647101  Server listening on :: port 2222.
+2025-08-07 16:50:57.225072838  Connection to localhost (::1) 2222 port [tcp/*] succeeded!
+2025-08-07 16:50:57.229755488  Connection closed by ::1 port 42472
+2025-08-07 16:51:05.698307754  Connection closed by 172.21.0.1 port 60922 [preauth]
+2025-08-07 16:51:32.463455338  Connection closed by authenticating user jumper 172.21.0.1 port 40400 [preauth]
+2025-08-07 16:51:57.257059943  Received signal 15; terminating.
+2025-08-07 16:52:20.254469533  Server listening on 0.0.0.0 port 2222.
+2025-08-07 16:52:20.254534036  Server listening on :: port 2222.
+2025-08-07 16:52:20.259161374  Connection to localhost (::1) 2222 port [tcp/*] succeeded!
+2025-08-07 16:52:20.265287689  Connection closed by ::1 port 34126
+2025-08-07 16:52:41.066891523  Accepted password for jumper from 172.21.0.1 port 52718 ssh2
+2025-08-07 16:52:41.085504765  Attempt to write login records by non-root user (aborting)
+2025-08-07 16:55:00.777351914  Attempt to write login records by non-root user (aborting)
+2025-08-07 16:55:00.778452571  Received disconnect from 172.21.0.1 port 52718:11: disconnected by user
+2025-08-07 16:55:00.778455072  Disconnected from user jumper 172.21.0.1 port 52718
+2025-08-07 17:00:40.853376417  Received signal 15; terminating.
+2025-08-07 17:01:15.983477507  Server listening on 0.0.0.0 port 2222.
+2025-08-07 17:01:15.983529810  Server listening on :: port 2222.
+2025-08-07 17:01:15.987758881  Connection to localhost (::1) 2222 port [tcp/*] succeeded!
+2025-08-07 17:01:15.997086579  Connection closed by ::1 port 45402
+2025-08-07 17:55:39.956626289  Received signal 15; terminating.
