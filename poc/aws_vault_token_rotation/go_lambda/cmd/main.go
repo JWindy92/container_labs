@@ -8,26 +8,26 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/JWindy92/golang_vault_iam/internal/awscreds"
 	vault "github.com/hashicorp/vault/api"
 	auth "github.com/hashicorp/vault/api/auth/aws"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	v4 "github.com/aws/aws-sdk-go-v2/aws/signer/v4"
 )
 
-// type CredentialsInterface interface {
-// 	GetCreds(ctx context.Context) (aws.Credentials, error)
-// }
-
 func main() {
-	// lambda.Start(handler)
-	run_v1()
+	lambda.Start(handler)
+	// run_v1()
 }
 
 func handler(ctx context.Context) (map[string]interface{}, error) {
+	log.Println("Lambda function started")
 	resp, err := getSecretWithAWSAuthIAM()
+	// resp, err := run_v1()
 	if err != nil {
 		return nil, fmt.Errorf("error getting secret: %w", err)
 	}
@@ -56,10 +56,11 @@ func PrettyPrint(v interface{}) {
 	fmt.Println(string(bytes))
 }
 
-func run_v1() {
+func run_v1() (string, error) {
+	log.Println("Starting run_v1")
 	ctx := context.Background()
 
-	vaultAddr := "http://127.0.0.1:8200"
+	vaultAddr := os.Getenv("VAULT_ADDR")
 	vaultRole := "vaultLambdaRole"
 	secretPath := "secret/data/someorg/someapp/db-creds"
 	awsRegion := "us-east-1"
@@ -126,12 +127,15 @@ func run_v1() {
 	}
 
 	PrettyPrint(secretData.Data)
+	json_str, err := json.Marshal(secretData.Data)
+	return string(json_str), nil
 }
 
 func getSecretWithAWSAuthIAM() (string, error) {
-	vaultAddr := "http://127.0.0.1:8200"
+	log.Println("Starting getSecretWithAWSAuthIAM")
+	vaultAddr := os.Getenv("VAULT_ADDR")
 	vaultRole := "vaultLambdaRole"
-	secretPath := "secret/data/someorg/someapp/db-creds"
+	secretPath := "someorg/someapp/db-creds"
 	awsRegion := "us-east-1"
 
 	// config := vault.DefaultConfig()             // modify for more granular configuration
@@ -166,12 +170,10 @@ func getSecretWithAWSAuthIAM() (string, error) {
 		return "", fmt.Errorf("unable to read secret: %w", err)
 	}
 
+	PrettyPrint(secret.Data)
 	// data map can contain more than one key-value pair,
 	// in this case we're just grabbing one of them
-	value, ok := secret.Data["password"].(string)
-	if !ok {
-		return "", fmt.Errorf("value type assertion failed: %T %#v", secret.Data["password"], secret.Data["password"])
-	}
+	data, err := json.Marshal(secret.Data)
 
-	return value, nil
+	return string(data), nil
 }
