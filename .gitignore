@@ -13,7 +13,9 @@ __pycache__
 *.tfstate
 
 # SSH Server Testing
-*/logs/
+**/logs/
+**/ssh_host_keys/
+**/ca/
 *.bash_history
 
 # Vault AWS Poc
