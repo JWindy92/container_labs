@@ -20,7 +20,6 @@ resource "aws_iam_role" "lambda_role" {
 
 
 
-# IAM Policy for accessing Secrets Manager
 resource "aws_iam_policy" "vault_iam_auth_policy" {
   name = "VaultSecretsAccess"
   policy = jsonencode({
