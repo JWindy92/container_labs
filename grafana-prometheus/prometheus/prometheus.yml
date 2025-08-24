@@ -1,0 +1,46 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Load rules once and periodically evaluate them
+rule_files:
+  - "rules/*.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus itself changes slowly, scrape less frequently
+  - job_name: 'prometheus'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # System metrics change frequently, scrape more often
+  - job_name: 'node-exporter'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # Container metrics are also volatile
+  - job_name: 'cadvisor'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  - job_name: "hass"
+    scrape_interval: 10s
+    metrics_path: /api/prometheus
+
+    # Long-Lived Access Token
+    authorization:
+      credentials: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4NzFmNmVmMjMxOTg0NDZmYTRhNDgwZDk0NmUxNjliZiIsImlhdCI6MTc1NTE4NDcxNSwiZXhwIjoyMDcwNTQ0NzE1fQ.9AxZRKRYhDVIlkbElZsxgaGTgOy77m-d3DPx4pB2Ino"
+
+    scheme: https
+    static_configs:
+      - targets: ['gontme0x64b8tlztnv7sd8s8edosmeoy.ui.nabu.casa']
